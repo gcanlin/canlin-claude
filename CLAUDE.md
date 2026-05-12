@@ -21,6 +21,16 @@ Strong preference for "clean" diffs. Concrete expectations:
 
 If unsure whether something is dead code, grep the whole repo + tests before deleting. Do not delete on instinct.
 
+## Python virtualenv convention
+
+Python projects always have a workspace-level virtualenv. **Before running any Python command, look for `.venv/` or `venv/` at or above the project root** and use that interpreter — never the system one.
+
+- Run scripts as `.venv/bin/python script.py` (or `venv/bin/python ...`) rather than activating, so commands stay reproducible in tool output.
+- Install with `.venv/bin/pip install <pkg>` — never `pip install` against system Python.
+- Run tests with `.venv/bin/pytest` / `.venv/bin/python -m pytest`.
+- If neither `.venv/` nor `venv/` exists, **ask before creating one**; the user may have a non-standard interpreter location (conda, uv, system pyenv).
+- Check Python version with `.venv/bin/python -V` when behavior depends on it; do not assume `python3` resolves to the project's version.
+
 ## Communication style
 
 - Reply in Chinese when the prompt is Chinese; otherwise default to English.

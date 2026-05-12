@@ -10,30 +10,11 @@ Common entry points:
 
 **Do not** invert this: do not sketch an abstraction in vllm-omni from memory and then ask whether to consult vLLM.
 
-## Git workflow
-
-Remote convention:
+## Git remotes
 
 | Remote | Points to |
 |---|---|
 | `origin` | `vllm-project/vllm-omni` (upstream) |
-| `gcl` | The user's fork (`gcanlin/vllm-omni`) |
+| `gcl` | `gcanlin/vllm-omni` (the user's fork) |
 
-Standard flow once code is finalized (only after the user explicitly says "OK" / "commit now"):
-
-```bash
-git checkout -b <branch-name>
-git commit -sm "[<Tag>] <Subject>"   # -s sign-off; Subject capitalized
-git push gcl <branch-name>
-gh pr create --repo vllm-project/vllm-omni --title "[<Tag>] <Subject>" --body "$(cat <<'EOF'
-...
-EOF
-)"
-```
-
-Commit / PR title tag convention (check `git log --oneline -20` for the most recent style):
-- `[BugFix]` — bug fix
-- `[Diffusion][Attention]` — nested domains, each segment capitalized
-- `[Feature]`, `[Refactor]`, `[Doc]`, `[Test]` — as needed
-
-The subject is space-separated from the tag and **must** start with a capital letter. Example: `[BugFix] Fix attention_backend AttributeError in diffusers adapter`.
+PR target: `vllm-project/vllm-omni`. Push branches to `gcl`. See the global Git workflow section in `~/.claude/CLAUDE.md` for the commit / push / `gh pr create` template.

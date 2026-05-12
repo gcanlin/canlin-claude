@@ -1,5 +1,32 @@
 # Global preferences for canlin
 
+## Git workflow
+
+Standard flow once code is finalized (only after the user explicitly says "OK" / "commit now" — never proactively):
+
+```bash
+git checkout -b <branch-name>
+git commit -sm "[<Tag>] <Subject>"   # -s sign-off; Subject capitalized
+git push <fork-remote> <branch-name>
+gh pr create --repo <upstream-owner>/<upstream-repo> \
+    --title "[<Tag>] <Subject>" \
+    --body "$(cat <<'EOF'
+...
+EOF
+)"
+```
+
+Remote naming convention across forks: `origin` points at the upstream repo, a personal short-name remote (e.g. `gcl`) points at the user's fork. Each project's `CLAUDE.md` declares the exact mapping.
+
+Commit / PR title tag convention:
+- `[BugFix]` — bug fix
+- `[Feature]`, `[Refactor]`, `[Doc]`, `[Test]` — as needed
+- Nested domains use bracket stacking, each segment capitalized: `[Diffusion][Attention]`, `[Engine][Scheduler]`
+
+Subject is space-separated from the tag and **must** start with a capital letter. Example: `[BugFix] Fix attention_backend AttributeError in diffusers adapter`.
+
+Before drafting a commit message, run `git log --oneline -20` to match the project's existing style (some projects prefer Conventional Commits, others stick to the bracket-tag form).
+
 ## On backwards-compatibility code
 
 A WIP PR (title tagged `[WIP]`, or not yet merged) does **not** need backwards-compat shims for "old callers" — the PR is itself the origin of the rename / new field, so there are no real "old" callers on `main`.
